@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pixel Art Maker!</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monoton">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="ui container">
+  <h1>Lab: Pixel Art Maker</h1>
+  <div class="ui equal width grid">
+    <div class="column">
+      <div class="ui segment">
+        <form class="ui tiny form" id="sizePicker">
+          <div class="two fields">
+            <div class="field">
+              <label># of rows:</label>
+              <input type="number" id="input_height" name="height" min="1" value="15">
+            </div>
+            <div class="field">
+              <label># of columns:</label>
+              <input type="number" id="input_width" name="width" min="1" max="64" value="15">
+            </div>
+          </div>
+          <button type="button" class="ui mini green button">Create Grid</button>
+        </form>
+      </div>
+    </div>
+    <div class="eleven wide column">
+      <div class="ui segment">
+        <div class="colorSelect">   
+          <div class="ui secondary menu">
+            <a class="item active" data-colors="custom">Custom Color</a>
+            <a class="item" data-colors="random">Random Color</a>
+          </div>
+          <div class="ui segment">
+            <div class="item">
+              <label id='colorInstructions'>Choose your color</label>
+              <input type="color" id="colorPicker" value="#34e89e">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui equal width grid">
+    <div class="column">
+      <div class="ui center aligned compact segment">
+        <div class="ui icon tiny menu">
+          <button type="button" class="ui mini violet button" id="reset">Clear Grid</button>
+            <div class="right menu">
+              <a class="item active" >
+                <i class="hand pointer icon" ></i>
+              </a>
+              <a class="item" data-brush=true>
+                <i class="paint brush icon" ></i>
+              </a>
+            </div>
+        </div>
+      <div id="pixel_canvas"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="designs.js"></script>
+</body>
+</html>
