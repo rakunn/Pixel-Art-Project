@@ -6,6 +6,7 @@ const heightInput = $("#input_height");
 const widthInput = $("#input_width");
 const listItems = $("a.item");
 const canvas = $("#pixel_canvas");
+const currentBrush = $("#currentBrush");
 
 let currentColorType = 'custom';
 let isColor = true;
@@ -73,6 +74,8 @@ listItems.on('click', function() {
 });
 
 // When size is submitted by the user, call makeGrid()
+currentBrush.parent().popup();
+
 userForm.on('click', () => makeGrid());
 
 reset.on('click', () => resetGrid());
@@ -80,7 +83,6 @@ reset.on('click', () => resetGrid());
 const colorGrid = function() {
 	const element = $('.element');
 	let isDraggable = false;
-	let currentBrush = $("#currentBrush");
 
 	element.on('click', function(event) {
 		event.preventDefault();
