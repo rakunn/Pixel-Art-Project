@@ -8,7 +8,7 @@ const listItems = $("a.item");
 const canvas = $("#pixel_canvas");
 
 let currentColorType = 'custom';
-let isDraggable = false;
+let isColor = true;
 
 // Select size input
 const getSize = () => {
@@ -32,13 +32,26 @@ const makeGrid = () => {
 			canvas.find(".row-element").last().prepend("<div class='element'></div>");
 		}
 	}
+	colorGrid();
 }
 
 const randomColor = () => {
-	let red = Math.floor(Math.random()*256);
-	let green = Math.floor(Math.random()*256);
-	let blue = Math.floor(Math.random()*256);
-	return `rgb(${red},${green},${blue})`;
+	if (isColor) {
+		let red = Math.floor(Math.random()*256);
+		let green = Math.floor(Math.random()*256);
+		let blue = Math.floor(Math.random()*256);
+		return `rgb(${red},${green},${blue})`;
+		} else {
+		return 'rgb(255,255,255';
+	}
+}
+
+const customColor = () => {
+	if (isColor) {
+		return colorPick.val();
+	} else {
+		return 'rgb(255,255,255)';
+	}
 }
 
 //event listeners...
@@ -64,30 +77,63 @@ userForm.on('click', () => makeGrid());
 
 reset.on('click', () => resetGrid());
 
-canvas.on('click', '.element', function() {
-	if(!isDraggable) {
-		switch(currentColorType) {
-			case 'custom':
-				$(this).css('background-color', colorPick.val());
-			break;
-			case 'random':
-				$(this).css('background-color', randomColor());
-			break;
+const colorGrid = function() {
+	const element = $('.element');
+	let isDraggable = false;
+	let currentBrush = $("#currentBrush");
+
+	element.on('click', function(event) {
+		event.preventDefault();
+		isColor = true;
+			switch(currentColorType) {
+				case 'custom':
+					$(this).css('background-color', customColor());
+				break;
+				case 'random':
+					$(this).css('background-color', randomColor());
+				break;
+		 }
+	});
+
+	element.on('mousemove', function(event) {
+		event.preventDefault();
+		if(isDraggable) {
+			switch(currentColorType) {
+				case 'custom':
+					$(this).css('background-color', customColor());
+				break;
+				case 'random':
+					$(this).css('background-color', randomColor());
+				break;
+			}
 		}
-	}
-});
+	});
 
-canvas.on('mouseenter', '.element', function() {
-	if(isDraggable) {
-		switch(currentColorType) {
-			case 'custom':
-				$(this).css('background-color', colorPick.val());
-			break;
-			case 'random':
-				$(this).css('background-color', randomColor());
-			break;
+	element.on('mousedown', function(event){
+		event.preventDefault();
+		isDraggable = true;
+		switch(event.which) {
+			case 1:
+				isColor = true;
+				currentBrush.addClass("paint brush").removeClass("eraser");
+				break;
+			case 3:
+				isColor = false;
+				currentBrush.addClass("eraser").removeClass("paint brush");
+				break;
 		}
-	}
-});
+	});
 
+	$(document).on('mouseup', function(event){
+		event.preventDefault();
+		currentBrush.addClass("paint brush").removeClass("eraser")
+		isDraggable = false;
+	});
 
+	element.on('contextmenu', function(event){
+		event.preventDefault();
+		isColor = false;
+
+		$(this).css('background-color', customColor());
+	});
+}

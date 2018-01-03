@@ -52,3 +52,7 @@ h2:first-of-type {
 #colorInstructions {
   line-height: 24px;
 }
+
+.ui.menu .active.item {
+  background: none;
+}
