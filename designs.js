@@ -1,5 +1,5 @@
 //few selector variables...
-const userForm = $("#sizePicker button");
+const userForm = $("#start");
 const colorPick = $("#colorPicker"); 
 const reset = $("#reset");
 const heightInput = $("#input_height");
@@ -13,8 +13,19 @@ let isColor = true;
 
 // Select size input
 const getSize = () => {
-	return [ Number(heightInput.val()), Number(widthInput.val()) ];
+	let height = Number(heightInput.val());
+	let width = Number(widthInput.val());
+	if (height > 64) {
+		height = 64;
+		heightInput.val('64');
+	}
+	if (width > 64) {
+		width = 64
+		widthInput.val('64');
+	}
+	return [ height, width ];
 }
+
 
 //Clear paintings
 const resetGrid = () => {
@@ -55,6 +66,17 @@ const customColor = () => {
 	}
 }
 
+const colorOrErase = (targetElement) => {
+	switch(currentColorType) {
+	case 'custom':
+		targetElement.css('background-color', customColor());
+	break;
+	case 'random':
+		targetElement.css('background-color', randomColor());
+	break;
+	}
+}
+
 //event listeners...
 listItems.on('click', function() {
 	$(this).siblings().removeClass("active");
@@ -76,7 +98,10 @@ listItems.on('click', function() {
 // When size is submitted by the user, call makeGrid()
 currentBrush.parent().popup();
 
-userForm.on('click', () => makeGrid());
+userForm.on('click', (event) => {
+	event.preventDefault();
+	makeGrid();
+});
 
 reset.on('click', () => resetGrid());
 
@@ -85,29 +110,17 @@ const colorGrid = function() {
 	let isDraggable = false;
 
 	element.on('click', function(event) {
+		const target = $(event.target);
 		event.preventDefault();
 		isColor = true;
-			switch(currentColorType) {
-				case 'custom':
-					$(this).css('background-color', customColor());
-				break;
-				case 'random':
-					$(this).css('background-color', randomColor());
-				break;
-		 }
+		colorOrErase(target);
 	});
 
 	element.on('mousemove', function(event) {
+		const target = $(event.target);
 		event.preventDefault();
 		if(isDraggable) {
-			switch(currentColorType) {
-				case 'custom':
-					$(this).css('background-color', customColor());
-				break;
-				case 'random':
-					$(this).css('background-color', randomColor());
-				break;
-			}
+			colorOrErase(target);
 		}
 	});
 
