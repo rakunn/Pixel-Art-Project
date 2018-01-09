@@ -5,6 +5,16 @@ body {
   round: linear-gradient(to right, #78ffd6, #007991); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+.rainbow.icon {
+  width: 13px;
+  height: 13px;
+  border-radius: 3px;
+  margin-right: 7px;
+  background: #40E0D0;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 h1 {
   font-family: Monoton;
   font-weight: normal;
@@ -21,6 +31,10 @@ h2 {
 
 h2:first-of-type {
   margin-top: 0.5em;
+}
+
+.square.icon {
+  color: #34e89e;
 }
 
 .ui.segment {
